@@ -23,7 +23,7 @@ namespace AMWin_RichPresence
         private bool hasScrobbled;
 
         //for personal use not sure if better way of doing this
-        string[] exemptArtists = {"Tyler, The Creator", "nothing,nowhere."};
+        readonly string[] exemptArtists = {"Tyler, The Creator", "nothing,nowhere."};
 
 
 
