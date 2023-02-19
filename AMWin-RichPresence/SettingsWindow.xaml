@@ -7,19 +7,19 @@
         xmlns:properties="clr-namespace:AMWin_RichPresence.Properties"
         mc:Ignorable="d"
         Icon="/Resources/AppleMusicTray.ico"
-        Title="AMWin-RichPresence" Height="400" Width="450" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="AMWin-RichPresence" Height="350" Width="449" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
         <DockPanel>
             <Border DockPanel.Dock="Top" Height="64" Padding="10" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" BorderThickness="0 0 0 1.5">
                 <StackPanel Orientation="Horizontal">
                     <Image Margin="0 0 10 0" Source="/Resources/AppleMusic64x.png"/>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" FontSize="18">AMWin-Rich Presence</TextBlock>
-                        <TextBlock x:Name="TextBlock_VersionString" VerticalAlignment="Bottom" FontSize="11">v1.0.0-dev</TextBlock>
+                        <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" FontSize="18">AMWin Last.fm Scrobbler</TextBlock>
+                        <TextBlock x:Name="TextBlock_VersionString" VerticalAlignment="Bottom" FontSize="11">v1.1</TextBlock>
                     </StackPanel>
                 </StackPanel>
             </Border>
-            <Border Padding="15" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Height="307">
+            <Border Padding="15" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Height="300" Width="450">
                 <StackPanel Orientation="Vertical">
                     <Grid Height="250" Width="408">
                         <Grid.ColumnDefinitions>
@@ -38,32 +38,22 @@
                             <RowDefinition Height="25"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0">Run when Windows starts</TextBlock>
-                        <CheckBox Grid.Row="0" Grid.Column="1" x:Name="CheckBox_RunOnStartup" Margin="0 2 0 0" IsChecked="{Binding Source={x:Static properties:Settings.Default}, Path=RunOnStartup, Mode=TwoWay}" Click="CheckBox_RunOnStartup_Click"/>
-
-                        <TextBlock Grid.Row="1" Grid.Column="0">Apple Music icon in status</TextBlock>
-                        <CheckBox Grid.Row="1" Grid.Column="1" x:Name="CheckBox_ShowAppleMusicIcon" Margin="0 2 0 0" IsChecked="{Binding Source={x:Static properties:Settings.Default}, Path=ShowAppleMusicIcon, Mode=TwoWay}" Click="CheckBox_ShowAppleMusicIcon_Click"></CheckBox>
-
-                        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="0 0 0 2">Rich Presence subtitle</TextBlock>
-                        <ComboBox Grid.Row="2" Grid.Column="1" x:Name="ComboBox_RPSubtitleChoice" SelectedIndex="{Binding Source={x:Static properties:Settings.Default}, Path=RPSubtitleChoice, Mode=TwoWay}" Height="22" SelectionChanged="ComboBox_RPSubtitleChoice_SelectionChanged">
-                            <!-- The order of these items matters! (check the enum in AppleMusicDiscordClient.cs) -->
-                            <ComboBoxItem>Artist and album</ComboBoxItem>
-                            <ComboBoxItem>Artist only</ComboBoxItem>
-                            <ComboBoxItem>Album only</ComboBoxItem>
-                        </ComboBox>
-                        <TextBlock Grid.Row="3" VerticalAlignment="Center" FontWeight="Bold" Padding="0 3 0 0">Last.FM Settings</TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,22,0,3" Grid.RowSpan="2">Run when Windows starts</TextBlock>
+                        <CheckBox Grid.Column="1" x:Name="CheckBox_RunOnStartup" Margin="0,23,0,4" IsChecked="{Binding Source={x:Static properties:Settings.Default}, Path=RunOnStartup, Mode=TwoWay}" Click="CheckBox_RunOnStartup_Click" Grid.RowSpan="2"/>
+                        <TextBlock Grid.Row="3" VerticalAlignment="Top" FontWeight="Bold" Padding="0 3 0 0" Grid.RowSpan="2" Margin="0,1,0,0"><Run Text="Last.FM "/><Run Language="en-ie" Text="Credentials"/><LineBreak/><Run Language="en-ie"/></TextBlock>
                         <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Padding="10 0 0 0">API Key</TextBlock>
-                        <TextBox Grid.Row="4" Grid.Column="1" x:Name="LastfmAPIKey" Text="{Binding Source={x:Static properties:Settings.Default}, Path=Default.LastfmAPIKey}" TextWrapping="Wrap" Margin="0,0,-121,0" FontFamily="Lucida Sans Typewriter" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="4" x:Name="LastfmAPIKey" Text="{Binding Source={x:Static properties:Settings.Default}, Path=Default.LastfmAPIKey}" TextWrapping="Wrap" Margin="149,0,-120,0" FontFamily="Lucida Sans Typewriter" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
                         <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Padding="10 0 0 0">API Secret</TextBlock>
                         <TextBox Grid.Row="5" Grid.Column="1" x:Name="LastfmSecret" Text="{Binding Source={x:Static properties:Settings.Default}, Path=Default.LastfmSecret}" TextWrapping="Wrap" Margin="0,0,-121,0" FontFamily="Lucida Sans Typewriter" VerticalAlignment="Center"/>
                         <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Padding="10 0 0 0">Username</TextBlock>
                         <TextBox Grid.Row="6" Grid.Column="1" x:Name="LastfmUsername" Text="{Binding Source={x:Static properties:Settings.Default}, Path=Default.LastfmUsername}" TextWrapping="Wrap" Margin="0,0,-121,0" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" Padding="10 0 0 0">Password</TextBlock>
-                        <PasswordBox Grid.Row="7" Grid.Column="1" x:Name="LastfmPassword" VerticalAlignment="Center" Margin="0,0,-121,0"/>
-                        <TextBlock Grid.Row="8" Grid.Column="0" Margin="10,2,17,3" Grid.ColumnSpan="2">Scrobble only Primary Artist (EXPERIMENTAL)</TextBlock>
-                        <CheckBox Grid.Row="9" x:Name="CheckBox_scrobblePimaryOnly" Margin="103,2,-103,0" IsChecked="{Binding Source={x:Static properties:Settings.Default}, Path=scrobbleOnlyPrimary, Mode=TwoWay}" Click="CheckBox_ScrobblePimaryOnly_Click" Grid.Column="1"/>
-                        <Button Grid.Row="9" Grid.Column="1" Content="Button" HorizontalAlignment="Left" Margin="201,10,0,0" VerticalAlignment="Top" Width="0"/>
-                        <Button Grid.Row="10" Grid.Column="1" x:Name="SaveLastFMCreds" Content="Save Last.FM Credentials" Margin="103,25,-125,-20" Click="SaveLastFMCreds_Click"/>
+                        <TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Top" Padding="10 0 0 0" Margin="0,2,0,0">Password</TextBlock>
+                        <PasswordBox Grid.Row="7" x:Name="LastfmPassword" VerticalAlignment="Top" Margin="149,2,-120,0" Grid.ColumnSpan="2"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,2,27,3" Grid.ColumnSpan="2">Scrobble only Primary Artist (EXPERIMENTAL)</TextBlock>
+                        <CheckBox Grid.Row="2" x:Name="CheckBox_scrobblePimaryOnly" Margin="109,2,-109,0" IsChecked="{Binding Source={x:Static properties:Settings.Default}, Path=scrobbleOnlyPrimary, Mode=TwoWay}" Click="CheckBox_ScrobblePimaryOnly_Click" Grid.Column="1"/>
+                        <Button Grid.Row="8" Grid.Column="1" Content="Button" HorizontalAlignment="Left" Margin="201,10,0,0" VerticalAlignment="Top" Width="0"/>
+                        <Button Grid.Row="8" Grid.Column="1" x:Name="SaveLastFMCreds" Content="Save Last.FM Credentials" Margin="98,5,-120,0" Click="SaveLastFMCreds_Click"/>
+                        <TextBlock VerticalAlignment="Top" FontWeight="Bold" Padding="0 3 0 0" Grid.RowSpan="2"><Run Language="en-ie" Text="Settings"/><LineBreak/><Run Language="en-ie"/></TextBlock>
                     </Grid>
                 </StackPanel>
             </Border>
